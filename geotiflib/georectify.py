@@ -1,5 +1,14 @@
+import os
 from .utils import Utils
 from .eventhook import EventHook
+from geotiflib.task.addgcptask import AddGcpTask
+from geotiflib.task.warptask import WarpTask
+from geotiflib.task.separatebandtask import SeparateBandTask
+from geotiflib.task.binarymasktask import BinaryMaskTask
+from geotiflib.task.recombinebandmasktask import RecombineBandMaskTask
+from geotiflib.task.tilejpegtask import TileJpegTask
+from geotiflib.task.addoverviewtask import AddOverviewTask
+from geotiflib.task.cleantask import CleanTask
 
 
 class GeoRectify:
@@ -36,9 +45,51 @@ class GeoRectify:
         self.on_progress.fire({"value": progress})
         step = 100.0/len(self._tasks) if len(self._tasks) > 0 else 0
         for task in self._tasks:
-            task.set_args(args=self._args, kwargs=self._kwargs)
+            #task.set_args(args=self._args, kwargs=self._kwargs)
             task.run()
             progress += step
             self.on_progress.fire({"value": progress})
         progress = 100.0
         self.on_progress.fire({"value": progress})
+
+
+class GeoRectifyFactory:
+
+    @staticmethod
+    def create(mode="OAW_TIF", *args, **kwargs):
+        if mode == "OAW_TIF":
+            in_tif = kwargs["input"]
+            min_points = kwargs["min_points"] if "min_points" in kwargs else -1
+            gcp_tif = in_tif.replace(".tif", "_gcp.tif")
+            grf_tif = in_tif.replace(".tif", "_grf.tif")
+            bnd_vrt = in_tif.replace(".tif", "_grf_b{band}.vrt")
+            msk_tif = in_tif.replace(".tif", "_grf_msk.tif")
+            fin_vrt = in_tif.replace(".tif", "_grf_fin.vrt")
+            fin_tif = in_tif.replace(".tif", "_grf_fin.tif")
+
+            geo = GeoRectify(*args, **kwargs)
+            return geo.pipe(
+                AddGcpTask(input=in_tif, output=gcp_tif, min_points=min_points)
+            ).pipe(
+                WarpTask(input=gcp_tif, output=grf_tif)
+            ).pipe(
+                SeparateBandTask(input=grf_tif, output=bnd_vrt)
+            ).pipe(
+                BinaryMaskTask(input=bnd_vrt, output=msk_tif)
+            ).pipe(
+                RecombineBandMaskTask(input_vrt=bnd_vrt, input_mask=msk_tif, output=fin_vrt)
+            ).pipe(
+                TileJpegTask(input=fin_vrt, output=fin_tif)
+            ).pipe(
+                AddOverviewTask(input=fin_tif)
+            ).pipe(
+                CleanTask(input=[
+                    gcp_tif, grf_tif,
+                    bnd_vrt.replace("{band}", "1"),
+                    bnd_vrt.replace("{band}", "2"),
+                    bnd_vrt.replace("{band}", "3"),
+                    msk_tif, fin_vrt
+                ])
+            )
+        else:
+            raise NotImplementedError("Format: " + mode)

@@ -42,6 +42,7 @@ def test_process(mock_subproc_popen):
     assert mock_subproc_popen.call_count == 1
     calls = [item["args"] for item in [item[2] for item in mock_subproc_popen.mock_calls] if len(item) > 1]
     assert calls[0] == ['gdalbuildvrt',
+                        '-separate',
                         'output.vrt',
                         file_vrt.replace("{band}", "1"),
                         file_vrt.replace("{band}", "2"),

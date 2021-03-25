@@ -31,8 +31,8 @@ class AddGcpTask(BaseTask):
                     if min_points == -1 or reader.count() >= min_points:
                         gdal_prc = GdalProcess(
                             GdalCommand.TRANSLATE,
-                            '-of GTiff',
-                            '-co ' + reader.get_list_as_string(),
+                            "-of GTiff",
+                            reader.get_list_as_string(),
                             in_image, out_image,
                             ret_out=True)
                         result = gdal_prc.process()

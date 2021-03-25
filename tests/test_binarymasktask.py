@@ -33,7 +33,7 @@ def test_process(mock_subproc_popen):
     assert mock_subproc_popen.call_count == 1
     calls = [item["args"] for item in [item[2] for item in mock_subproc_popen.mock_calls] if len(item) > 1]
     assert calls[0] == [
-        'gdal_calc.py',
+        'python', 'C:\\OSGeo4W64\\apps\\Python37\\Scripts\\gdal_calc.py',
         '--type=Byte',
         '--co=NUM_THREADS=4',
         '--co=PHOTOMETRIC=MINISBLACK',
@@ -43,5 +43,5 @@ def test_process(mock_subproc_popen):
         '-A', file.replace("{band}", "1"),
         '-B', file.replace("{band}", "2"),
         '-C', file.replace("{band}", "3"),
-        '--calc="logical_not(logical_and(logical_and(A==0,B==0),C==0))"',
+        '--calc=logical_not(logical_and(logical_and(A==0,B==0),C==0))',
         '--outfile', 'output.tif']

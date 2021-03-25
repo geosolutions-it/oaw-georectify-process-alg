@@ -32,8 +32,11 @@ class RecombineBandMaskTask(BaseTask):
             if not os.path.exists(file) or not os.path.isfile(file):
                 raise FileNotFoundError(file)
 
-        gdal_prc = GdalProcess(GdalCommand.BUILD_VRT,
+        gdal_prc = GdalProcess(GdalCommand.BUILD_VRT, '-separate',
                                out_vrt,
-                               ' '.join(in_files),
+                               in_files[0],
+                               in_files[1],
+                               in_files[2],
+                               in_files[3],
                                ret_out=True)
         gdal_prc.process()

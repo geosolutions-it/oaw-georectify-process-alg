@@ -56,7 +56,7 @@ def test_process(mock_subproc_popen):
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1
     calls = [item["args"] for item in [item[2] for item in mock_subproc_popen.mock_calls] if len(item) > 1]
-    assert calls[0] == ['gdal_translate', '-of', 'GTiff', '-co',
+    assert calls[0] == ['gdal_translate', '-of', 'GTiff',
                         '-gcp', '8540.92', '4987.67', '1822331.48', '6141557.76', file, 'output.tif']
 
 

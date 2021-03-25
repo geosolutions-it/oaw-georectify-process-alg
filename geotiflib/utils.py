@@ -51,11 +51,13 @@ class Utils:
                 values = get_iter_items(kwargs[key])
                 options = " ".join(["%s=%s" % (k, v) for k, v in values])
                 cmd = "%s %s" % (cmd, options)
-        finalCommand = cmd.split() if _split else cmd
+        final_command = cmd.split() if _split else cmd
         if _replacingChar:
-            for i in range(len(finalCommand)):
-                finalCommand[i] = finalCommand[i].replace(_replacingChar, " ")
-        return finalCommand
+            for i in range(len(final_command)):
+                final_command[i] = final_command[i].replace(_replacingChar, " ")
+        for i in range(len(final_command)):
+            final_command[i] = final_command[i].replace("|", " ")
+        return final_command
 
     @staticmethod
     def check_output(process_out):
