@@ -22,6 +22,8 @@ class BinaryMaskTask(BaseTask):
 
     def run(self):
         in_vrt = self._kwargs["input"]
+        qgis_scripts = self._kwargs["qgis_scripts"] \
+            if "qgis_scripts" in self._kwargs else ""
         out_image = self._kwargs["output"]
         vrt_files = []
         for band in range(self._bands):
@@ -30,8 +32,8 @@ class BinaryMaskTask(BaseTask):
                 vrt_files.append('-' + self._letters[band] + ' ' + vrt_file)
             else:
                 raise FileNotFoundError(vrt_file)
-
-        gdal_prc = GdalProcess(GdalCommand.CALC,
+        command = "python %s" % os.path.join(qgis_scripts, str(GdalCommand.CALC))
+        gdal_prc = GdalProcess(command,
                                '--type=Byte',
                                '--co=NUM_THREADS=' + str(self._threads),
                                '--co=PHOTOMETRIC=MINISBLACK',

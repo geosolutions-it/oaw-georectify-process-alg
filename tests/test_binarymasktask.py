@@ -33,7 +33,7 @@ def test_process(mock_subproc_popen):
     assert mock_subproc_popen.call_count == 1
     calls = [item["args"] for item in [item[2] for item in mock_subproc_popen.mock_calls] if len(item) > 1]
     assert calls[0] == [
-        'python', 'C:\\OSGeo4W64\\apps\\Python37\\Scripts\\gdal_calc.py',
+        'python', 'gdal_calc.py',
         '--type=Byte',
         '--co=NUM_THREADS=4',
         '--co=PHOTOMETRIC=MINISBLACK',

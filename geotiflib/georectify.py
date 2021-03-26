@@ -57,8 +57,20 @@ class GeoRectifyFactory:
 
     @staticmethod
     def create(mode="OAW_TIF", *args, **kwargs):
+        """
+        Create the Georectify object
+        :param mode: type of the GeoRectify object to create ["OAW_TIF"]
+        :param args:
+        :param kwargs:
+            "input" => path to the tif image to be processed
+            "min_points" => minimum number of GCPs in the *.points file (default -1)
+            "qgis_scripts" => path the Scripts folder in the QGIS installation
+        :return: GeoRectify
+        """
         if mode == "OAW_TIF":
             in_tif = kwargs["input"]
+            qgis_scripts = kwargs["qgis_scripts"] \
+                if "qgis_scripts" in kwargs else "C:\\OSGeo4W64\\apps\\Python37\\Scripts\\"
             min_points = kwargs["min_points"] if "min_points" in kwargs else -1
             gcp_tif = in_tif.replace(".tif", "_gcp.tif")
             grf_tif = in_tif.replace(".tif", "_grf.tif")
@@ -75,7 +87,7 @@ class GeoRectifyFactory:
             ).pipe(
                 SeparateBandTask(input=grf_tif, output=bnd_vrt)
             ).pipe(
-                BinaryMaskTask(input=bnd_vrt, output=msk_tif)
+                BinaryMaskTask(input=bnd_vrt, output=msk_tif, qgis_scripts=qgis_scripts)
             ).pipe(
                 RecombineBandMaskTask(input_vrt=bnd_vrt, input_mask=msk_tif, output=fin_vrt)
             ).pipe(
