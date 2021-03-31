@@ -69,7 +69,8 @@ class GeoRectifyFactory:
         """
         if mode == "OAW_TIF":
             in_tif = kwargs["input"]
-            output_folder = kwargs["output_folder"] if "output_folder" in kwargs else os.path.dirname(in_tif)
+            input_folder = os.path.dirname(in_tif)
+            output_folder = kwargs["output_folder"] if "output_folder" in kwargs else input_folder
             qgis_scripts = kwargs["qgis_scripts"] \
                 if "qgis_scripts" in kwargs else "C:\\OSGeo4W64\\apps\\Python37\\Scripts\\"
             min_points = kwargs["min_points"] if "min_points" in kwargs else -1
@@ -79,7 +80,10 @@ class GeoRectifyFactory:
             bnd_vrt = os.path.join(output_folder, base_name.replace(".tif", "_grf_b{band}.vrt"))
             msk_tif = os.path.join(output_folder, base_name.replace(".tif", "_grf_msk.tif"))
             fin_vrt = os.path.join(output_folder, base_name.replace(".tif", "_grf_fin.vrt"))
-            fin_tif = os.path.join(output_folder, base_name.replace(".tif", "_grf_fin.tif"))
+            if input_folder == output_folder:
+                fin_tif = os.path.join(output_folder, base_name.replace(".tif", "_grf_fin.tif"))
+            else:
+                fin_tif = os.path.join(output_folder, base_name)
             #grf_tif = in_tif.replace(".tif", "_grf.tif")
             #bnd_vrt = in_tif.replace(".tif", "_grf_b{band}.vrt")
             #msk_tif = in_tif.replace(".tif", "_grf_msk.tif")
