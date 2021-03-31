@@ -10,4 +10,6 @@ setup(
     setup_requires=['pytest-runner'],
     tests_require=['pytest==6.2.2', 'pytest-mock==3.5.1', 'mock==2.0.0'],
     test_suite='tests',
+    packages=find_packages(),
+    include_package_data=True
 )
