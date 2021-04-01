@@ -18,7 +18,7 @@ class GdalProcess(object):
         self.name = str(name)
         self._args = args
         self._kwargs = kwargs
-        self._shell = self._get_kwarg_value("shell")
+        self._shell = self._get_kwarg_value("shell", default=True)
         self._sync = self._get_kwarg_value("sync", default=True)
         self._verbose = self._get_kwarg_value("verbose")
         self._ret_out = self._get_kwarg_value("ret_out")
@@ -71,12 +71,13 @@ class GdalProcess(object):
         if self._sync:
             out_lines = process.stdout.readlines()
             out = ''.join([str(x) for x in out_lines])
-
             err_lines = process.stderr.readlines()
             err = ''.join([str(x) for x in err_lines])
-            #out, _ = process.communicate()
-            #lines = process.stdout.readlines()
             check, msg = Utils.check_output(err)
+
+            #out, _ = process.communicate()
+            #check, msg = Utils.check_output(out)
+
             if not check:
                 # Raise command exception
                 raise Exception("%s - %s" % (self.name, msg))

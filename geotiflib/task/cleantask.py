@@ -1,4 +1,5 @@
 import os
+import time
 from .basetask import BaseTask
 
 
@@ -10,6 +11,7 @@ class CleanTask(BaseTask):
         BaseTask.__init__(self, 'CLEAN_TASK', *args, **kwargs)
 
     def run(self):
+        time.sleep(0.2)
         files = self._kwargs["input"]
         for file in files:
             if os.path.exists(file) and os.path.isfile(file):

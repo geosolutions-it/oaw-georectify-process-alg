@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
     name='geotiflib',
-    version='1.0.2',
+    version='1.0.6',
     description='GeoTiff Python library utils',
     author='GeoSolutions',
     license='GNU General Public License v3',
