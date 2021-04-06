@@ -18,7 +18,7 @@ class BinaryMaskTask(BaseTask):
         BaseTask.__init__(self, 'BINARY_MASK_TASK', *args, **kwargs)
         self._bands = 3
         self._letters = ['A', 'B', 'C']
-        self._threads = 4
+        self._threads = self._kwargs["gdal_threads"] if 'gdal_threads' in self._kwargs else 4
 
     def run(self):
         in_vrt = self._kwargs["input"]

@@ -74,6 +74,7 @@ class GeoRectifyFactory:
             qgis_scripts = kwargs["qgis_scripts"] \
                 if "qgis_scripts" in kwargs else "C:\\OSGeo4W64\\apps\\Python37\\Scripts\\"
             min_points = kwargs["min_points"] if "min_points" in kwargs else -1
+            gdal_threads = kwargs["gdal_threads"] if "gdal_threads" in kwargs else 4
             base_name = os.path.basename(in_tif)
             gcp_tif = os.path.join(output_folder, base_name.replace(".tif", "_gcp.tif"))
             grf_tif = os.path.join(output_folder, base_name.replace(".tif", "_grf.tif"))
@@ -84,12 +85,6 @@ class GeoRectifyFactory:
                 fin_tif = os.path.join(output_folder, base_name.replace(".tif", "_grf_fin.tif"))
             else:
                 fin_tif = os.path.join(output_folder, base_name)
-            #gcp_tif = in_tif.replace(".tif", "_gcp.tif")
-            #grf_tif = in_tif.replace(".tif", "_grf.tif")
-            #bnd_vrt = in_tif.replace(".tif", "_grf_b{band}.vrt")
-            #msk_tif = in_tif.replace(".tif", "_grf_msk.tif")
-            #fin_vrt = in_tif.replace(".tif", "_grf_fin.vrt")
-            #fin_tif = in_tif.replace(".tif", "_grf_fin.tif")
             geo = GeoRectify(*args, **kwargs)
             return geo.pipe(
                 AddGcpTask(input=in_tif, output=gcp_tif, min_points=min_points)
@@ -98,7 +93,7 @@ class GeoRectifyFactory:
             ).pipe(
                 SeparateBandTask(input=grf_tif, output=bnd_vrt)
             ).pipe(
-                BinaryMaskTask(input=bnd_vrt, output=msk_tif, qgis_scripts=qgis_scripts)
+                BinaryMaskTask(input=bnd_vrt, output=msk_tif, qgis_scripts=qgis_scripts, gdal_threads=gdal_threads)
             ).pipe(
                 RecombineBandMaskTask(input_vrt=bnd_vrt, input_mask=msk_tif, output=fin_vrt)
             ).pipe(

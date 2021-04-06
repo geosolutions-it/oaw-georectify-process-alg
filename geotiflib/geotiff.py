@@ -23,6 +23,19 @@ class GeoTiff:
         self._info = str(prc.process())
         return self._info
 
+    def is_processed(self):
+        """
+        Check if the image is already optimized
+        :return:
+        """
+        info = self.info()
+        return "COMPRESSION=YCbCr JPEG" in info \
+            and "Corner Coordinates:" in info \
+            and "Band 1 Block=512x512 Type=Byte, ColorInterp=Red" in info \
+            and "Band 2 Block=512x512 Type=Byte, ColorInterp=Green" in info \
+            and "Band 3 Block=512x512 Type=Byte, ColorInterp=Blue" in info \
+            and "Overviews:" in info
+
     def metadata(self, name):
         """
         Return the value of a specific metadata information
