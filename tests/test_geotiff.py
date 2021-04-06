@@ -29,3 +29,8 @@ def test_metadata_not_existing():
     attribute = tif.metadata("TIFFTAG_NOT_EXISTING")
     assert attribute is None
 
+
+def test_is_processed():
+    path = os.path.join(get_data_folder(), "AC04078710_grf_fin.tif")
+    tif = geotiff.GeoTiff(path)
+    assert tif.is_processed() is True
