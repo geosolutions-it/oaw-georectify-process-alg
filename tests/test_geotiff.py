@@ -39,4 +39,4 @@ def test_is_processed():
 def test_is_processed_7mb():
     path = os.path.join(get_data_folder(), "AC04078710_7mb.tif")
     tif = geotiff.GeoTiff(path)
-    assert tif.is_processed() is True
+    assert tif.is_processed() is False
