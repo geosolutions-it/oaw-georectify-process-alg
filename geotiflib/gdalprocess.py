@@ -59,6 +59,7 @@ class GdalProcess(object):
             with counter.get_lock():
                 counter.value += 1
                 #log.debug("%s (%i/%i)" % (self.name, counter.value, self._num_files))
+            print(cmd)
             process = subprocess.Popen(
                 args=cmd,
                 stdin=subprocess.PIPE,
