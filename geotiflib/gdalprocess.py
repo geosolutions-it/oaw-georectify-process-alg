@@ -18,7 +18,10 @@ class GdalProcess(object):
         self.name = str(name)
         self._args = args
         self._kwargs = kwargs
-        self._shell = self._get_kwarg_value("shell", default=True)
+        def_shell = False
+        if Utils.is_windows():
+            def_shell = True
+        self._shell = self._get_kwarg_value("shell", default=def_shell)
         self._sync = self._get_kwarg_value("sync", default=True)
         self._verbose = self._get_kwarg_value("verbose")
         self._ret_out = self._get_kwarg_value("ret_out")
