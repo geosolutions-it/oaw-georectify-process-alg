@@ -57,7 +57,8 @@ class GdalProcess(object):
         cmd = Utils.make_command(self.name, *args, **self._kwargs)
         #if cmd[0] == 'gdalinfo':
         #    cmd = ' '.join(cmd)
-        cmd = ' '.join(cmd)
+        #cmd = ' '.join(cmd)
+        self._shell = False
         try:
             with counter.get_lock():
                 counter.value += 1
