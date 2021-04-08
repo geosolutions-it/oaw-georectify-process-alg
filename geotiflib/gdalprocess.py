@@ -55,8 +55,9 @@ class GdalProcess(object):
         # += operation is not atomic, so we need to get a lock:
         args = self._args if not hasattr(self, "_p_args") else self._p_args
         cmd = Utils.make_command(self.name, *args, **self._kwargs)
-        if cmd[0] == 'gdalinfo':
-            cmd = ' '.join(cmd)
+        #if cmd[0] == 'gdalinfo':
+        #    cmd = ' '.join(cmd)
+        cmd = ' '.join(cmd)
         try:
             with counter.get_lock():
                 counter.value += 1

@@ -29,6 +29,7 @@ class GeoTiff:
         :return:
         """
         info = self.info()
+        print(info)
         return "COMPRESSION=YCbCr JPEG" in info \
             and "Corner Coordinates:" in info \
             and "Band 1 Block=512x512 Type=Byte, ColorInterp=Red" in info \
