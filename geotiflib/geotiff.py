@@ -29,13 +29,13 @@ class GeoTiff:
         :return:
         """
         info = self.info()
-        print(info)
+        if "Overviews:" not in info:
+            print("WARNING: the image does not contain overviews layers!")
         return "COMPRESSION=YCbCr JPEG" in info \
             and "Corner Coordinates:" in info \
             and "Band 1 Block=512x512 Type=Byte, ColorInterp=Red" in info \
             and "Band 2 Block=512x512 Type=Byte, ColorInterp=Green" in info \
-            and "Band 3 Block=512x512 Type=Byte, ColorInterp=Blue" in info \
-            and "Overviews:" in info
+            and "Band 3 Block=512x512 Type=Byte, ColorInterp=Blue" in info
 
     def metadata(self, name):
         """

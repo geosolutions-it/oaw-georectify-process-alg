@@ -36,7 +36,13 @@ def test_is_processed():
     assert tif.is_processed() is True
 
 
-def test_is_processed_7mb():
-    path = os.path.join(get_data_folder(), "AC04078710_7mb.tif")
+def test_is_processed_colorinterp_is_undefined():
+    path = os.path.join(get_data_folder(), "AC04078710_colorinterp_is_undefined.tif")
     tif = geotiff.GeoTiff(path)
     assert tif.is_processed() is False
+
+
+def test_is_processed_no_overviews():
+    path = os.path.join(get_data_folder(), "AC04078710_no_overviews.tif")
+    tif = geotiff.GeoTiff(path)
+    assert tif.is_processed() is True

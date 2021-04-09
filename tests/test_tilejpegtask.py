@@ -35,6 +35,7 @@ def test_process(mock_subproc_popen):
     calls = [item["args"] for item in [item[2] for item in mock_subproc_popen.mock_calls] if len(item) > 1]
     assert calls[0] == ['gdal_translate',
                         '-mo', 'NODATA_VALUES=0 0 0',
+                        '-colorinterp', 'red,green,blue',
                         '-co', 'COMPRESS=JPEG',
                         '-co', 'PHOTOMETRIC=YCBCR',
                         '-co', 'TILED=YES',
