@@ -25,6 +25,7 @@ class TileJpegTask(BaseTask):
         # '-mo "NODATA_VALUES=0|0|0"',
         gdal_prc = GdalProcess(GdalCommand.TRANSLATE,
                                '-mo NODATA_VALUES=0|0|0',
+                               '-colorinterp red,green,blue',
                                '-co COMPRESS=JPEG',
                                '-co PHOTOMETRIC=YCBCR',
                                '-co TILED=YES',
