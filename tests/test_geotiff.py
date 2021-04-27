@@ -46,3 +46,93 @@ def test_is_processed_no_overviews():
     path = os.path.join(get_data_folder(), "AC04078710_no_overviews.tif")
     tif = geotiff.GeoTiff(path)
     assert tif.is_processed() is True
+
+
+def test_xmp_metadata_date():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_DATE)
+    assert attribute == '1750'
+
+
+def test_xmp_metadata_creator():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_CREATOR)
+    assert attribute == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+
+
+def test_xmp_metadata_description():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_DESCRIPTION)
+    assert 'Bibliographische Informationen Quelle' in attribute  and 'Augsburg [Verlagsort]' in attribute
+
+
+def test_xmp_metadata_format():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_FORMAT)
+    assert attribute == 'Massstab: 37000000'
+
+
+def test_xmp_metadata_identifier():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_IDENTIFIER)
+    assert attribute == 'AC12708841'
+
+
+def test_xmp_metadata_relation():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_RELATION)
+    assert attribute == 'Gesamttitel: Accurata Globi Terrestris; Reihenfolge in Serie: [5]'
+
+
+def test_xmp_metadata_source():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_SOURCE)
+    assert attribute == 'https://goobi.acdh.oeaw.ac.at/viewer/image/AC12708841'
+
+
+def test_xmp_metadata_subject():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_SUBJECT)
+    assert attribute == 'Kartentyp; Kontinentalkarte'
+
+
+def test_xmp_metadata_title():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_TITLE)
+    assert attribute == 'SEUTTER Suedamerika 1750'
+
+
+def test_xmp_metadata_title_str():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    attribute = tif.xmp_metadata("title")
+    assert attribute == 'SEUTTER Suedamerika 1750'
+    attribute = tif.xmp_metadata("TITLE")
+    assert attribute == 'SEUTTER Suedamerika 1750'
+
+
+def test_xmp_metadata_dict():
+    path = os.path.join(get_data_folder(), "test999_0007.tif")
+    tif = geotiff.GeoTiff(path)
+    dictionary = tif.xmp_metadata_dict()
+    assert dictionary["creator"] == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+    assert dictionary["date"] == '1750'
+    assert 'Bibliographische Informationen Quelle' \
+           in dictionary["description"] and 'Augsburg [Verlagsort]' in dictionary["description"]
+    assert dictionary["format"] == 'Massstab: 37000000'
+    assert dictionary["identifier"] == 'AC12708841'
+    assert dictionary["relation"] == 'Gesamttitel: Accurata Globi Terrestris; Reihenfolge in Serie: [5]'
+    assert dictionary["source"] == 'https://goobi.acdh.oeaw.ac.at/viewer/image/AC12708841'
+    assert dictionary["subject"] == 'Kartentyp; Kontinentalkarte'
+    assert dictionary["title"] == 'SEUTTER Suedamerika 1750'
+    assert dictionary["edition"] is None
+
