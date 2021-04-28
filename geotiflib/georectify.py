@@ -8,6 +8,7 @@ from geotiflib.task.binarymasktask import BinaryMaskTask
 from geotiflib.task.recombinebandmasktask import RecombineBandMaskTask
 from geotiflib.task.tilejpegtask import TileJpegTask
 from geotiflib.task.addoverviewtask import AddOverviewTask
+from geotiflib.task.edittagtask import EditTagTask
 from geotiflib.task.cleantask import CleanTask
 
 
@@ -100,6 +101,8 @@ class GeoRectifyFactory:
                 TileJpegTask(input=fin_vrt, output=fin_tif)
             ).pipe(
                 AddOverviewTask(input=fin_tif)
+            ).pipe(
+                EditTagTask(input=in_tif, output=fin_tif, qgis_scripts=qgis_scripts)
             ).pipe(
                 CleanTask(input=[
                     gcp_tif, grf_tif,

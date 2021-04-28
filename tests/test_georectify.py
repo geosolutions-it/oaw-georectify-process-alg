@@ -50,13 +50,13 @@ def test_georecfy_factory(mock_subproc_popen, mock_os_remove):
     file_tif = os.path.join(get_data_folder(), 'pipe', 'AC04078710.tif')
     process = GeoRectifyFactory.create(input=file_tif)
     assert isinstance(process, GeoRectify) is True
-    assert process.task_count() == 8
+    assert process.task_count() == 9
 
     spy = mock.Mock()
     process.on_progress += spy
     process.process()
     assert spy.called is True
-    assert spy.call_count == 10
+    assert spy.call_count == 11
 
 """
 def test_georecfy_factory_real():
