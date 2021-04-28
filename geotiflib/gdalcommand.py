@@ -7,6 +7,7 @@ class GdalCommand(Enum):
     WARP = "gdalwarp"
     BUILD_VRT = "gdalbuildvrt"
     CALC = "gdal_calc.py"
+    EDIT = "gdal_edit.py"
     ADDO = "gdaladdo"
 
     def __str__(self):
