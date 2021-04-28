@@ -1,4 +1,5 @@
 from enum import Enum
+from .utils import Utils
 from .gdalprocess import GdalProcess
 from .gdalcommand import GdalCommand
 
@@ -100,7 +101,10 @@ class GeoTiff:
 
             if name in self._info:
                 parts = self._info.split(name + "=")
-                value = parts[1].split(r"\r")[0].replace("\\\\", "\\")
+                if Utils.is_windows():
+                    value = parts[1].split(r"\r")[0].replace("\\\\", "\\")
+                else:
+                    value = parts[1].split(r"\n")[0].replace("\\\\", "\\")
                 if value.startswith('"'):
                     value = value[1:]
                 if value.endswith('"'):
