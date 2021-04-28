@@ -1,5 +1,3 @@
-import bs4
-from lxml import etree
 from enum import Enum
 from .gdalprocess import GdalProcess
 from .gdalcommand import GdalCommand
