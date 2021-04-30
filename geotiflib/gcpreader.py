@@ -7,10 +7,16 @@ class GCP:
         self.mapY = float(row[1])
         self.pixelX = float(row[2])
         self.pixelY = float(row[3])
-        self.enable = True if row[4] == '1' else False
-        self.dX = float(row[5])
-        self.dY = float(row[6])
-        self.residual = float(row[7])
+        self.enable = row[4] == '1'
+        self.dX = None
+        self.dY = None
+        self.residual = None
+        if len(row) > 4:
+            self.dX = float(row[5])
+        if len(row) > 5:
+            self.dY = float(row[6])
+        if len(row) > 6:
+            self.residual = float(row[7])
 
     def __str__(self):
         return '-gcp %.2f %.2f %.2f %.2f' % (self.pixelX, -self.pixelY, self.mapX, self.mapY)
