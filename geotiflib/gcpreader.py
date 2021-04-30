@@ -11,11 +11,11 @@ class GCP:
         self.dX = None
         self.dY = None
         self.residual = None
-        if len(row) > 4:
-            self.dX = float(row[5])
         if len(row) > 5:
-            self.dY = float(row[6])
+            self.dX = float(row[5])
         if len(row) > 6:
+            self.dY = float(row[6])
+        if len(row) > 7:
             self.residual = float(row[7])
 
     def __str__(self):
