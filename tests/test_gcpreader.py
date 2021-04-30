@@ -34,6 +34,20 @@ def test_gcp_str():
     assert str(gcp) == "-gcp 8540.92 4987.67 1822331.48 6141557.76"
 
 
+def test_gcp_str_mandatory():
+    row = ['1822331.48124592285603285', '6141557.76140719745308161',
+           '8540.91993957704107743', '-4987.66937311178116943',
+           '0']
+    gcp = gcpreader.GCP(row)
+    assert str(gcp) == "-gcp 8540.92 4987.67 1822331.48 6141557.76"
+
+
+def test_gcp_str_minimal():
+    row = ['1822331.48124592285603285', '6141557.76140719745308161',
+           '8540.91993957704107743', '-4987.66937311178116943']
+    gcp = gcpreader.GCP(row)
+    assert str(gcp) == "-gcp 8540.92 4987.67 1822331.48 6141557.76"
+
 def test_get_list():
     reader = gcpreader.GCPReader(os.path.join(get_data_folder(), "AC04078710.tif.points"))
     reader.parse()

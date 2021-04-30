@@ -7,7 +7,9 @@ class GCP:
         self.mapY = float(row[1])
         self.pixelX = float(row[2])
         self.pixelY = float(row[3])
-        self.enable = row[4] == '1'
+        self.enable = True
+        if len(row) > 4:
+            self.enable = row[4] == '1'
         self.dX = None
         self.dY = None
         self.residual = None
