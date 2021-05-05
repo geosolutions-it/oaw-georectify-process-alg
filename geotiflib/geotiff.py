@@ -1,3 +1,4 @@
+from urllib.parse import unquote
 from enum import Enum
 from .utils import Utils
 from .gdalprocess import GdalProcess
@@ -109,7 +110,7 @@ class GeoTiff:
                     value = value[1:]
                 if value.endswith('"'):
                     value = value[:-1]
-                return value
+                return unquote(value)
         finally:
             pass
         return None
@@ -137,7 +138,7 @@ class GeoTiff:
             tag_end = self._xmp_xml.find(tag.value.close)
             if tag_start != tag_end:
                 value = self._xmp_xml[tag_start+len(tag.value.open):tag_end]
-                return value
+                return unquote(value)
         return None
 
     def xmp_metadata_dict(self):
