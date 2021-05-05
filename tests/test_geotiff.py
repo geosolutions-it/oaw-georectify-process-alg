@@ -251,18 +251,18 @@ def test_oaw_metadata_dict_02():
 
 """
 def test_oaw_metadata_dict_03():
-    path = os.path.join(get_data_folder(), "test005_0001.tif")
+    path = os.path.join(get_data_folder(), "test005_0001_bis.tif")
     tif = geotiff.GeoTiff(path)
     dictionary = tif.oaw_metadata_dict()
-    assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
-    assert dictionary["date"] == '1718'
-    assert '<p><strong>Bibliographische+Informationen+Quelle</strong></p>' \
-           in dictionary["description"] and '[Verlagsort]' in dictionary["description"]
-    assert dictionary["format"] == '<p><strong>Ma&szlig;stab+Quelle:</strong><br+/>4800000'
-    assert dictionary["identifier"] == 'AC12247972'
-    assert dictionary["relation"] == '<p><strong>Enthalten+in:</strong></p><br+/>Johann David Koehlers Historiarum &amp; Politices Professoris Publici auf der Nürnbergischen Universitaet Altdorff Bequemer Schul- und Reisen-Atlas'
-    assert dictionary["source"] == '<p><strong>Quelle:</strong><br+/> https://goobi.acdh.oeaw.ac.at/viewer/image/AC12247972'
-    assert dictionary["subject"] == 'Kartentyp; Regionalkarte'
-    assert dictionary["title"] == 'WEIGEL Ukraine 1718'
-    assert dictionary["edition"] is None
+    #assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
+    #assert dictionary["date"] == '1718'
+    #assert '<strong>Bibliographische Informationen Quelle</strong>' \
+    #       in dictionary["description"] and 'Reihenfolge:' in dictionary["description"]
+    #assert dictionary["format"] == '<strong>Ma&szlig;stab Quelle:</strong><br />4800000'
+    #assert dictionary["identifier"] == 'AC12247972'
+    #assert dictionary["relation"] == '<p><strong>Enthalten+in:</strong></p><br+/>Johann David Koehlers Historiarum &amp; Politices Professoris Publici auf der Nürnbergischen Universitaet Altdorff Bequemer Schul- und Reisen-Atlas'
+    #assert dictionary["source"] == '<p><strong>Quelle:</strong><br+/> https://goobi.acdh.oeaw.ac.at/viewer/image/AC12247972'
+    assert dictionary["subject"] == 'Kartentyp; Regionalkarte|Transport & Travel; Eisenbahn'
+    #assert dictionary["title"] == 'WEIGEL Ukraine 1718'
+    #assert dictionary["edition"] is None
 """

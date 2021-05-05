@@ -111,9 +111,10 @@ class GeoTiff:
                     value = value[1:]
                 if value.endswith('"'):
                     value = value[:-1]
-                if to_unquote:
-                    value = unquote(value)
+                value = unquote(value)
                 value = codecs.escape_decode(value)[0].decode()
+                if not to_unquote:
+                    value = value.replace("&amp;", "&")
                 return value
         finally:
             pass
@@ -133,8 +134,9 @@ class GeoTiff:
                         .replace("\\n", "")\
                         .replace("    ", " ")\
                         .replace("   ", " ")\
-                        .replace("  ", " ") \
-                        .replace("> <", "><")
+                        .replace("  ", " ")\
+                        .replace("> <", "><")\
+                        .replace("+", " ")
         if self._xmp_xml is not None:
             if isinstance(tag, str):
                 tag = XmlTags.xmp_from_string(tag)
@@ -142,9 +144,10 @@ class GeoTiff:
             tag_end = self._xmp_xml.find(tag.value.close)
             if tag_start != tag_end:
                 value = self._xmp_xml[tag_start+len(tag.value.open):tag_end]
-                if to_unquote:
-                    value = unquote(value)
+                value = unquote(value)
                 value = codecs.escape_decode(value)[0].decode()
+                if not to_unquote:
+                    value = value.replace("&amp;", "&")
                 return value
         return None
 
