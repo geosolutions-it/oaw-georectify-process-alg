@@ -1,3 +1,4 @@
+import codecs
 from urllib.parse import unquote
 from enum import Enum
 from .utils import Utils
@@ -111,9 +112,9 @@ class GeoTiff:
                 if value.endswith('"'):
                     value = value[:-1]
                 if to_unquote:
-                    return unquote(value)
-                else:
-                    return value
+                    value = unquote(value)
+                value = codecs.escape_decode(value)[0].decode()
+                return value
         finally:
             pass
         return None
@@ -142,9 +143,9 @@ class GeoTiff:
             if tag_start != tag_end:
                 value = self._xmp_xml[tag_start+len(tag.value.open):tag_end]
                 if to_unquote:
-                    return unquote(value)
-                else:
-                    return value
+                    value = unquote(value)
+                value = codecs.escape_decode(value)[0].decode()
+                return value
         return None
 
     def xmp_metadata_dict(self):
