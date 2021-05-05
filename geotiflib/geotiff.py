@@ -86,7 +86,7 @@ class GeoTiff:
             and "Band 2 Block=512x512 Type=Byte, ColorInterp=Green" in info \
             and "Band 3 Block=512x512 Type=Byte, ColorInterp=Blue" in info
 
-    def metadata(self, tag):
+    def metadata(self, tag, to_unquote=True):
         """
         Return the value of a specific metadata information
         :param tag: name (str or XmlTag) of the metadata of interest
@@ -110,12 +110,15 @@ class GeoTiff:
                     value = value[1:]
                 if value.endswith('"'):
                     value = value[:-1]
-                return unquote(value)
+                if to_unquote:
+                    return unquote(value)
+                else:
+                    return value
         finally:
             pass
         return None
 
-    def xmp_metadata(self, tag):
+    def xmp_metadata(self, tag, to_unquote=True):
         if self._xmp_xml is None:
             with open(self._path, "rb") as fin:
                 img = fin.read()
@@ -138,7 +141,10 @@ class GeoTiff:
             tag_end = self._xmp_xml.find(tag.value.close)
             if tag_start != tag_end:
                 value = self._xmp_xml[tag_start+len(tag.value.open):tag_end]
-                return unquote(value)
+                if to_unquote:
+                    return unquote(value)
+                else:
+                    return value
         return None
 
     def xmp_metadata_dict(self):
@@ -150,15 +156,15 @@ class GeoTiff:
             'identifier': self.xmp_metadata(XmlTags.XMP_IDENTIFIER),
             'relation': self.xmp_metadata(XmlTags.XMP_RELATION),
             'source': self.xmp_metadata(XmlTags.XMP_SOURCE),
-            'subject': self.xmp_metadata(XmlTags.XMP_SUBJECT),
+            'subject': self.xmp_metadata(XmlTags.XMP_SUBJECT, False),
             'title': self.xmp_metadata(XmlTags.XMP_TITLE),
             'edition': self.xmp_metadata(XmlTags.XMP_EDITION)
         }
 
-    def oaw_metadata(self, tag):
+    def oaw_metadata(self, tag, to_uncode=True):
         value = self.metadata(tag)
         if value == "" or value is None:
-            value = self.xmp_metadata(tag)
+            value = self.xmp_metadata(tag, to_uncode)
         return value
 
     def oaw_metadata_dict(self):
@@ -170,7 +176,7 @@ class GeoTiff:
             'identifier': self.oaw_metadata(XmlTags.XMP_IDENTIFIER),
             'relation': self.oaw_metadata(XmlTags.XMP_RELATION),
             'source': self.oaw_metadata(XmlTags.XMP_SOURCE),
-            'subject': self.oaw_metadata(XmlTags.XMP_SUBJECT),
+            'subject': self.oaw_metadata(XmlTags.XMP_SUBJECT, False),
             'title': self.oaw_metadata(XmlTags.XMP_TITLE),
             'edition': self.oaw_metadata(XmlTags.XMP_EDITION)
         }
