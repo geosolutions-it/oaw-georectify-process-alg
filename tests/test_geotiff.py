@@ -34,7 +34,7 @@ def test_metadata_oaw_creator():
     path = os.path.join(get_data_folder(), "output_with_oaw_meta.tif")
     tif = geotiff.GeoTiff(path)
     attribute = tif.metadata("OAW_CREATOR")
-    assert attribute == "\\xc3\\x96sterreichische Akademie der Wissenschaften Wien"
+    assert attribute == "Österreichische Akademie der Wissenschaften Wien"
 
 
 def test_metadata_oaw_date():
@@ -129,7 +129,7 @@ def test_xmp_metadata_creator():
     path = os.path.join(get_data_folder(), "test999_0007.tif")
     tif = geotiff.GeoTiff(path)
     attribute = tif.xmp_metadata(geotiff.XmlTags.XMP_CREATOR)
-    assert attribute == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+    assert attribute == 'Österreichische Akademie der Wissenschaften Wien'
 
 
 def test_xmp_metadata_description():
@@ -194,7 +194,7 @@ def test_xmp_metadata_dict():
     path = os.path.join(get_data_folder(), "test999_0007.tif")
     tif = geotiff.GeoTiff(path)
     dictionary = tif.xmp_metadata_dict()
-    assert dictionary["creator"] == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+    assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
     assert dictionary["date"] == '1750'
     assert 'Bibliographische Informationen Quelle' \
            in dictionary["description"] and 'Augsburg [Verlagsort]' in dictionary["description"]
@@ -220,7 +220,7 @@ def test_oaw_metadata_dict_01():
     path = os.path.join(get_data_folder(), "test999_0007.tif")
     tif = geotiff.GeoTiff(path)
     dictionary = tif.oaw_metadata_dict()
-    assert dictionary["creator"] == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+    assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
     assert dictionary["date"] == '1750'
     assert 'Bibliographische Informationen Quelle' \
            in dictionary["description"] and 'Augsburg [Verlagsort]' in dictionary["description"]
@@ -237,7 +237,7 @@ def test_oaw_metadata_dict_02():
     path = os.path.join(get_data_folder(), "output_with_oaw_meta.tif")
     tif = geotiff.GeoTiff(path)
     dictionary = tif.oaw_metadata_dict()
-    assert dictionary["creator"] == '\\xc3\\x96sterreichische Akademie der Wissenschaften Wien'
+    assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
     assert dictionary["date"] == '1750'
     assert 'Bibliographische Informationen Quelle' \
            in dictionary["description"] and 'Augsburg [Verlagsort]' in dictionary["description"]
@@ -248,3 +248,22 @@ def test_oaw_metadata_dict_02():
     assert dictionary["subject"] == 'Kartentyp; Kontinentalkarte'
     assert dictionary["title"] == 'SEUTTER Europa 1750'
     assert dictionary["edition"] is None
+
+"""
+def test_oaw_metadata_dict_03():
+    path = os.path.join(get_data_folder(), "test005_0001_bis.tif")
+    tif = geotiff.GeoTiff(path)
+    dictionary = tif.oaw_metadata_dict()
+    #assert dictionary["creator"] == 'Österreichische Akademie der Wissenschaften Wien'
+    #assert dictionary["date"] == '1718'
+    #assert '<strong>Bibliographische Informationen Quelle</strong>' \
+    #       in dictionary["description"] and 'Reihenfolge:' in dictionary["description"]
+    #assert dictionary["format"] == '<strong>Ma&szlig;stab Quelle:</strong><br />4800000'
+    #assert dictionary["identifier"] == 'AC12247972'
+    #assert dictionary["relation"] == '<p><strong>Enthalten+in:</strong></p><br+/>Johann David Koehlers Historiarum &amp; Politices Professoris Publici auf der Nürnbergischen Universitaet Altdorff Bequemer Schul- und Reisen-Atlas'
+    #assert dictionary["source"] == '<p><strong>Quelle:</strong><br+/> https://goobi.acdh.oeaw.ac.at/viewer/image/AC12247972'
+    assert dictionary["subject"] == 'Kartentyp; Regionalkarte|Transport & Travel; Eisenbahn'
+    #assert dictionary["title"] == 'WEIGEL Ukraine 1718'
+    #assert dictionary["edition"] is None
+"""
+
