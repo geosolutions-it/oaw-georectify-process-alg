@@ -266,3 +266,4 @@ def test_oaw_metadata_dict_03():
     #assert dictionary["title"] == 'WEIGEL Ukraine 1718'
     #assert dictionary["edition"] is None
 """
+
