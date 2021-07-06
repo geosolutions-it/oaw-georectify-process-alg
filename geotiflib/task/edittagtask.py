@@ -1,4 +1,5 @@
 import os
+import html
 from .basetask import BaseTask
 from ..gdalprocess import GdalProcess
 from ..gdalcommand import GdalCommand
@@ -30,7 +31,7 @@ class EditTagTask(BaseTask):
         command = ["python", os.path.join(qgis_scripts, str(GdalCommand.EDIT))]
         for k, v in sorted(tags.items()):
             command.append('-mo')
-            command.append('OAW_%s="%s"' % (k.upper(), v if v is not None else ""))
+            command.append('OAW_%s="%s"' % (k.upper(), v.replace('"', "'") if v is not None else ""))
             print('assert "OAW_%s=" in call[%d]' % (k.upper(), len(command)-1))
 
         command.append(out_tif)

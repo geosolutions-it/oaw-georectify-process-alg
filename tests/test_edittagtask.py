@@ -78,11 +78,19 @@ def test_process(mock_subproc_popen):
 
     assert call[22] == file_out
 
+
 """
 def test_run_real():
     qgis_scripts = "C:\\OSGeo4W64\\apps\\Python37\\Scripts\\"
-    file_in = "C:/temp/oaw/staging/output.tif"
-    file_out = "C:/temp/oaw/staging/output_grf_fin.tif"
+    file_in = "C:/temp/oaw/staging/KIASOst71.tif"
+    file_out = "C:/temp/oaw/staging/KIASOst71_grf_fin.tif"
     task = EditTagTask(input=file_in, output=file_out, qgis_scripts=qgis_scripts)
     task.run()
+
+    from geotiflib import geotiff
+    file_out = "C:/temp/oaw/staging/KIASOst71_grf_fin.tif"
+    path = os.path.join(file_out)
+    tif = geotiff.GeoTiff(path)
+    dictionary = tif.oaw_metadata_dict()
+    print(dictionary)
 """
