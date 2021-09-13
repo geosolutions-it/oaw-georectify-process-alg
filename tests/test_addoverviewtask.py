@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.addoverviewtask import AddOverviewTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_tif():
-    task = AddOverviewTask(input="not_existing.tif")
+    task = AddOverviewTask(input="not_existing.tif", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing.tif" in str(exc.value)
@@ -27,7 +27,7 @@ def test_process(mock_subproc_popen):
     process_mock.configure_mock(**attrs)
     mock_subproc_popen.return_value = process_mock
     file_tif = os.path.join(get_data_folder(), 'AC04078710.tif')
-    task = AddOverviewTask(input=file_tif)
+    task = AddOverviewTask(input=file_tif, log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1

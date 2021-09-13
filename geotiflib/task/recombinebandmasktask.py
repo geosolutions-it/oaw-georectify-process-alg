@@ -38,5 +38,5 @@ class RecombineBandMaskTask(BaseTask):
                                in_files[1],
                                in_files[2],
                                in_files[3],
-                               ret_out=True)
+                               ret_out=True, log_location=self._kwargs['log_location'])
         gdal_prc.process()

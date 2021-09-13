@@ -34,6 +34,6 @@ class TileJpegTask(BaseTask):
                                "-b 1", "-b 2", "-b 3", "-mask 4",
                                in_vrt,
                                out_tif,
-                               ret_out=True)
+                               ret_out=True, log_location=self._kwargs['log_location'])
         gdal_prc.process()
 

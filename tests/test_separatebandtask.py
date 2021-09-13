@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.separatebandtask import SeparateBandTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_tif():
-    task = SeparateBandTask(input="not_existing.tif", output="output_b{band}.vrt")
+    task = SeparateBandTask(input="not_existing.tif", output="output_b{band}.vrt", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing.tif" in str(exc.value)
@@ -27,7 +27,7 @@ def test_process(mock_subproc_popen):
     process_mock.configure_mock(**attrs)
     mock_subproc_popen.return_value = process_mock
     file = os.path.join(get_data_folder(), 'AC04078710.tif')
-    task = SeparateBandTask(input=file, output=file + "_b{band}.vrt")
+    task = SeparateBandTask(input=file, output=file + "_b{band}.vrt", log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 3

@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import subprocess
 from osgeo import gdal, ogr, osr
@@ -26,6 +27,7 @@ class GdalProcess(object):
         self._verbose = self._get_kwarg_value("verbose")
         self._ret_out = self._get_kwarg_value("ret_out")
         self._num_files = self._get_kwarg_value("num_files")
+        self._log_location = self._get_kwarg_value("log_location", 'C:\\Users\\alg_log')
         global counter
         counter = Value('i', 0)
 
@@ -65,28 +67,37 @@ class GdalProcess(object):
                 counter.value += 1
                 #log.debug("%s (%i/%i)" % (self.name, counter.value, self._num_files))
             print(cmd)
-            process = subprocess.Popen(
-                args=cmd,
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                shell=self._shell
-            )
+            if not os.path.exists(f"{self._log_location}/log"):
+                print(f"not exists: {self._log_location}")
+                try:
+                    x = os.makedirs(f"{self._log_location}/log")
+                    print(x)
+                except Exception as e:
+                    raise e
+
+            with open(f"{self._log_location}/log/{datetime.today().strftime('%Y%m%d')}", 'a+') as f:
+                process = subprocess.Popen(
+                    args=cmd,
+                    stdin=subprocess.PIPE,
+                    stdout=subprocess.PIPE,
+                    stderr=f,
+                    shell=self._shell
+                )
         except Exception as e:
             raise e
         if self._sync:
             out_lines = process.stdout.readlines()
             out = ''.join([str(x) for x in out_lines])
-            err_lines = process.stderr.readlines()
-            err = ''.join([str(x) for x in err_lines])
-            check, msg = Utils.check_output(err)
+            #err_lines = process.stderr.readlines()
+            #err = ''.join([str(x) for x in err_lines])
+            #check, msg = Utils.check_output(err)
 
             #out, _ = process.communicate()
             #check, msg = Utils.check_output(out)
 
-            if not check:
-                # Raise command exception
-                raise Exception("%s - %s" % (self.name, msg))
+            #if not check:
+            #    # Raise command exception
+            #    raise Exception("%s - %s" % (self.name, msg))
             if self._verbose:
                 #log.debug("%s" % (out))
                 pass

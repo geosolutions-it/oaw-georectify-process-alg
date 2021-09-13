@@ -23,5 +23,5 @@ class AddOverviewTask(BaseTask):
                                '-r average',
                                '--config GDAL_TIFF_OVR_BLOCKSIZE %s' % self._block_size,
                                in_tif,
-                               ret_out=True)
+                               ret_out=True, log_location=self._kwargs['log_location'])
         gdal_prc.process()

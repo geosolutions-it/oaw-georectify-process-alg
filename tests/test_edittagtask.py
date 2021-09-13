@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.edittagtask import EditTagTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_input_file():
-    task = EditTagTask(input="not_existing_input.tif", output="not_existing_output.tif")
+    task = EditTagTask(input="not_existing_input.tif", output="not_existing_output.tif", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing_input.tif" in str(exc.value)
@@ -19,7 +19,7 @@ def test_run_not_existing_input_file():
 
 def test_run_not_existing_output_file():
     file = os.path.join(get_data_folder(), 'AC04078710.tif')
-    task = EditTagTask(input=file, output="not_existing_output.tif")
+    task = EditTagTask(input=file, output="not_existing_output.tif", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing_output.tif" in str(exc.value)
@@ -36,7 +36,7 @@ def test_process(mock_subproc_popen):
     mock_subproc_popen.return_value = process_mock
     file_in = os.path.join(get_data_folder(), 'test999_0007.tif')
     file_out = os.path.join(get_data_folder(), 'AC04078710.tif')
-    task = EditTagTask(input=file_in, output=file_out)
+    task = EditTagTask(input=file_in, output=file_out, log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1
