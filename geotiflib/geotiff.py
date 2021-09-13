@@ -111,10 +111,10 @@ class GeoTiff:
                     value = value[1:]
                 if value.endswith('"'):
                     value = value[:-1]
-                value = unquote(value)
-                value = codecs.escape_decode(value)[0].decode()
-                if not to_unquote:
-                    value = value.replace("&amp;", "&")
+                #value = unquote(value)
+                #value = codecs.escape_decode(value)[0].decode()
+                #if not to_unquote:
+                #    value = value.replace("&amp;", "&")
                 return value
         finally:
             pass
@@ -144,10 +144,10 @@ class GeoTiff:
             tag_end = self._xmp_xml.find(tag.value.close)
             if tag_start != tag_end:
                 value = self._xmp_xml[tag_start+len(tag.value.open):tag_end]
-                value = unquote(value)
-                value = codecs.escape_decode(value)[0].decode()
-                if not to_unquote:
-                    value = value.replace("&amp;", "&")
+                #value = unquote(value)
+                #value = codecs.escape_decode(value)[0].decode()
+                #if not to_unquote:
+                #    value = value.replace("&amp;", "&")
                 return value
         return None
 
