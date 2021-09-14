@@ -1,4 +1,4 @@
-import mock
+from unittest import mock
 from geotiflib import gdalprocess
 
 
@@ -17,6 +17,6 @@ def test_process(mock_subproc_popen):
     }
     process_mock.configure_mock(**attrs)
     mock_subproc_popen.return_value = process_mock
-    prc = gdalprocess.GdalProcess("calc", "division", "4", "2", ret_out=True)
+    prc = gdalprocess.GdalProcess("calc", "division", "4", "2", ret_out=True, log_location='/tmp')
     result = prc.process()
     assert result == "output"

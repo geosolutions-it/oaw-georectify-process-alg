@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.binarymasktask import BinaryMaskTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_vrt():
-    task = BinaryMaskTask(input="not_existing_b{band}.vrt", output="output.tif")
+    task = BinaryMaskTask(input="not_existing_b{band}.vrt", output="output.tif", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing_b1.vrt" in str(exc.value)
@@ -27,7 +27,7 @@ def test_process(mock_subproc_popen):
     process_mock.configure_mock(**attrs)
     mock_subproc_popen.return_value = process_mock
     file = os.path.join(get_data_folder(), 'AC04078710_b{band}.vrt')
-    task = BinaryMaskTask(input=file, output="output.tif")
+    task = BinaryMaskTask(input=file, output="output.tif", log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1

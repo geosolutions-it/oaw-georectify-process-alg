@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.tilejpegtask import TileJpegTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_vrt():
-    task = TileJpegTask(input="not_existing.vrt", output="output.tif")
+    task = TileJpegTask(input="not_existing.vrt", output="output.tif", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing.vrt" in str(exc.value)
@@ -28,7 +28,7 @@ def test_process(mock_subproc_popen):
     mock_subproc_popen.return_value = process_mock
     file_vrt = os.path.join(get_data_folder(), 'AC04078710_final.vrt')
     file_tif = os.path.join(get_data_folder(), 'AC04078710_final.tif')
-    task = TileJpegTask(input=file_vrt, output=file_tif)
+    task = TileJpegTask(input=file_vrt, output=file_tif, log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1

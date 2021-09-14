@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from .utils import get_data_folder
 from geotiflib.task.recombinebandmasktask import RecombineBandMaskTask
@@ -11,7 +11,7 @@ def test_constructor():
 
 
 def test_run_not_existing_vrt():
-    task = RecombineBandMaskTask(input_vrt="not_existing_b{band}.vrt", input_mask="not_existing_mask.tif", output="output.vrt")
+    task = RecombineBandMaskTask(input_vrt="not_existing_b{band}.vrt", input_mask="not_existing_mask.tif", output="output.vrt", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing_b1.vrt" in str(exc.value)
@@ -19,7 +19,7 @@ def test_run_not_existing_vrt():
 
 def test_run_not_existing_mask():
     file = os.path.join(get_data_folder(), 'AC04078710_b{band}.vrt')
-    task = RecombineBandMaskTask(input_vrt=file, input_mask="not_existing_mask.tif", output="output.vrt")
+    task = RecombineBandMaskTask(input_vrt=file, input_mask="not_existing_mask.tif", output="output.vrt", log_location='/tmp')
     with pytest.raises(FileNotFoundError) as exc:
         task.run()
     assert "not_existing_mask.tif" in str(exc.value)
@@ -36,7 +36,7 @@ def test_process(mock_subproc_popen):
     mock_subproc_popen.return_value = process_mock
     file_vrt = os.path.join(get_data_folder(), 'AC04078710_b{band}.vrt')
     file_tif = os.path.join(get_data_folder(), 'AC04078710_mask.tif')
-    task = RecombineBandMaskTask(input_vrt=file_vrt, input_mask=file_tif, output="output.vrt")
+    task = RecombineBandMaskTask(input_vrt=file_vrt, input_mask=file_tif, output="output.vrt", log_location='/tmp')
     task.run()
     assert mock_subproc_popen.called
     assert mock_subproc_popen.call_count == 1

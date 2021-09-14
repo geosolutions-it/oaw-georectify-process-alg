@@ -42,5 +42,5 @@ class BinaryMaskTask(BaseTask):
                                '--co=COMPRESS=DEFLATE',
                                ' '.join(vrt_files),
                                '--calc=logical_not(logical_and(logical_and(A==0,B==0),C==0))',
-                               '--outfile ' + out_image, ret_out=True)
+                               '--outfile ' + out_image, ret_out=True, log_location=self._kwargs['log_location'])
         gdal_prc.process()

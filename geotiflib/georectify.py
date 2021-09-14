@@ -88,21 +88,21 @@ class GeoRectifyFactory:
                 fin_tif = os.path.join(output_folder, base_name)
             geo = GeoRectify(*args, **kwargs)
             return geo.pipe(
-                AddGcpTask(input=in_tif, output=gcp_tif, min_points=min_points)
+                AddGcpTask(input=in_tif, output=gcp_tif, min_points=min_points, log_location=input_folder)
             ).pipe(
-                WarpTask(input=gcp_tif, output=grf_tif)
+                WarpTask(input=gcp_tif, output=grf_tif, log_location=input_folder)
             ).pipe(
-                SeparateBandTask(input=grf_tif, output=bnd_vrt)
+                SeparateBandTask(input=grf_tif, output=bnd_vrt, log_location=input_folder)
             ).pipe(
-                BinaryMaskTask(input=bnd_vrt, output=msk_tif, qgis_scripts=qgis_scripts, gdal_threads=gdal_threads)
+                BinaryMaskTask(input=bnd_vrt, output=msk_tif, qgis_scripts=qgis_scripts, gdal_threads=gdal_threads, log_location=input_folder)
             ).pipe(
-                RecombineBandMaskTask(input_vrt=bnd_vrt, input_mask=msk_tif, output=fin_vrt)
+                RecombineBandMaskTask(input_vrt=bnd_vrt, input_mask=msk_tif, output=fin_vrt, log_location=input_folder)
             ).pipe(
-                TileJpegTask(input=fin_vrt, output=fin_tif)
+                TileJpegTask(input=fin_vrt, output=fin_tif, log_location=input_folder)
             ).pipe(
-                AddOverviewTask(input=fin_tif)
+                AddOverviewTask(input=fin_tif, log_location=input_folder)
             ).pipe(
-                EditTagTask(input=in_tif, output=fin_tif, qgis_scripts=qgis_scripts)
+                EditTagTask(input=in_tif, output=fin_tif, qgis_scripts=qgis_scripts, log_location=input_folder)
             ).pipe(
                 CleanTask(input=[
                     gcp_tif, grf_tif,

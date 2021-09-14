@@ -34,7 +34,7 @@ class AddGcpTask(BaseTask):
                             "-of GTiff",
                             reader.get_list_as_string(),
                             in_image, out_image,
-                            ret_out=True)
+                            ret_out=True, log_location=self._kwargs['log_location'])
                         result = gdal_prc.process()
                     else:
                         raise ImportError("Insufficient number of GCPs: %d < %d" % (gcp_count, min_points))

@@ -36,5 +36,5 @@ class EditTagTask(BaseTask):
 
         command.append(out_tif)
         statement = ' '.join(command)
-        gdal_prc = GdalProcess("gdal_edit", ret_out=True)
+        gdal_prc = GdalProcess("gdal_edit", ret_out=True, log_location=self._kwargs['log_location'])
         gdal_prc.process(cmd=command)

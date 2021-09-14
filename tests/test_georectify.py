@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 import pytest
 from geotiflib.georectify import GeoRectify, GeoRectifyFactory
 from .utils import get_data_folder
@@ -48,7 +48,7 @@ def test_georecfy_factory(mock_subproc_popen, mock_os_remove):
     mock_subproc_popen.return_value = process_mock
 
     file_tif = os.path.join(get_data_folder(), 'pipe', 'AC04078710.tif')
-    process = GeoRectifyFactory.create(input=file_tif)
+    process = GeoRectifyFactory.create(input=file_tif, log_location='/tmp')
     assert isinstance(process, GeoRectify) is True
     assert process.task_count() == 9
 

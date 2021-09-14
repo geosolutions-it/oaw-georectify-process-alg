@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 from geotiflib import gcpreader
 from .utils import get_data_folder
 

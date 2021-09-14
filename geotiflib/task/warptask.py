@@ -20,7 +20,7 @@ class WarpTask(BaseTask):
         if os.path.exists(in_image) and os.path.isfile(in_image):
             gdal_prc = GdalProcess(GdalCommand.WARP,
                                    '-t_srs EPSG:' + str(self._epsg) + ' -r lanczos -tps -co -dstalpha',
-                                   in_image, out_image, ret_out=True)
+                                   in_image, out_image, ret_out=True, log_location=self._kwargs['log_location'])
             result = gdal_prc.process()
         else:
             raise FileNotFoundError(in_image)

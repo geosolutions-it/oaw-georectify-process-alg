@@ -25,7 +25,7 @@ class SeparateBandTask(BaseTask):
                                        '-b ' + str(band+1),
                                        '-hidenodata',
                                        out_vrt.replace("{band}", str(band+1)),
-                                       in_image, ret_out=True)
+                                       in_image, ret_out=True, log_location=self._kwargs['log_location'])
                 gdal_prc.process()
         else:
             raise FileNotFoundError(in_image)
