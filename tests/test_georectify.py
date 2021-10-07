@@ -2,7 +2,7 @@ import os
 from unittest import mock
 import pytest
 from geotiflib.georectify import GeoRectify, GeoRectifyFactory
-from .utils import get_data_folder
+from tests.utils import get_data_folder
 
 
 def test_constructor():
@@ -58,14 +58,14 @@ def test_georecfy_factory(mock_subproc_popen, mock_os_remove):
     assert spy.called is True
     assert spy.call_count == 11
 
-"""
+'''
 def test_georecfy_factory_real():
-    file_tif = os.path.join('C:\\geo-solutions\\repositories\\OAW\\data\\XXX', 'AC04078710.tif')
-    process = GeoRectifyFactory.create(input=file_tif)
+    file_tif = os.path.join('/mnt/c/Users/user/Documents/source/', 'KIASOst71.tif')
+    process = GeoRectifyFactory.create(input=file_tif, qgis_scripts='/usr/bin')
 
     def on_progress(message):
         print(str(message["value"]))
 
     process.on_progress += on_progress
     process.process()
-"""
+'''

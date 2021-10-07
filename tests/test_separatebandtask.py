@@ -1,7 +1,7 @@
 import os
 from unittest import mock
 import pytest
-from .utils import get_data_folder
+from tests.utils import get_data_folder
 from geotiflib.task.separatebandtask import SeparateBandTask
 
 
