@@ -76,6 +76,7 @@ class GdalProcess(object):
                     raise e
 
             with open(f"{self._log_location}/log/{datetime.today().strftime('%Y%m%d')}", 'a+') as f:
+                f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} Starting with task {cmd}\n")
                 process = subprocess.Popen(
                     args=cmd,
                     stdin=subprocess.PIPE,
@@ -88,16 +89,8 @@ class GdalProcess(object):
         if self._sync:
             out_lines = process.stdout.readlines()
             out = ''.join([str(x) for x in out_lines])
-            #err_lines = process.stderr.readlines()
-            #err = ''.join([str(x) for x in err_lines])
-            #check, msg = Utils.check_output(err)
-
-            #out, _ = process.communicate()
-            #check, msg = Utils.check_output(out)
-
-            #if not check:
-            #    # Raise command exception
-            #    raise Exception("%s - %s" % (self.name, msg))
+            with open(f"{self._log_location}/log/{datetime.today().strftime('%Y%m%d')}", 'a+') as f:
+                f.writelines(out)
             if self._verbose:
                 #log.debug("%s" % (out))
                 pass

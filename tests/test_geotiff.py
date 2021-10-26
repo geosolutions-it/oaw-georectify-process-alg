@@ -1,7 +1,7 @@
 import os
 from unittest import mock
 from geotiflib import geotiff
-from .utils import get_data_folder
+from tests.utils import get_data_folder
 
 
 def test_constructor():
