@@ -38,6 +38,7 @@ class EditTagTask(BaseTask):
         command.append(out_tif)
 
         gdal_prc = GdalProcess("gdal_edit", ret_out=True, log_location=self._kwargs['log_location'])
+        print(f"Command is running on windows?: {Utils.is_windows()}")
         if Utils.is_windows():
             command = ' '.join(command)
 
